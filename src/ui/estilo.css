@@ -1,0 +1,122 @@
+:root {
+  --fundo: #ffffff;
+  --superficie: #f2f4f7;
+  --texto: #111418;
+  --texto-suave: #4a5361;
+  --borda: #c9d0da;
+  --destaque: #0b57d0;
+  --aviso-fundo: #fff4d6;
+  --aviso-texto: #5c4300;
+  --raio: 10px;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fundo: #0f1115;
+    --superficie: #1b1f26;
+    --texto: #eef1f5;
+    --texto-suave: #a9b2bf;
+    --borda: #343b46;
+    --destaque: #8ab4f8;
+    --aviso-fundo: #3a2f0b;
+    --aviso-texto: #ffe08a;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font: 18px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+a { color: var(--destaque); }
+
+.tela {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px 16px 96px;
+}
+
+.topo { display: flex; align-items: center; gap: 8px; min-height: 48px; }
+.topo h1 { font-size: 1.25rem; margin: 0; }
+
+.campo-busca {
+  width: 100%;
+  min-height: 56px;
+  padding: 12px 16px;
+  font: inherit;
+  font-size: 1.1rem;
+  color: var(--texto);
+  background: var(--superficie);
+  border: 2px solid var(--borda);
+  border-radius: var(--raio);
+}
+.campo-busca:focus { outline: none; border-color: var(--destaque); }
+
+.lista { list-style: none; margin: 12px 0 0; padding: 0; }
+.lista li + li { margin-top: 8px; }
+
+.item {
+  display: block;
+  min-height: 56px;
+  padding: 12px 16px;
+  background: var(--superficie);
+  border-radius: var(--raio);
+  color: var(--texto);
+  text-decoration: none;
+}
+.item-codigo { display: block; font-size: 0.85rem; color: var(--texto-suave); font-variant-numeric: tabular-nums; }
+.item-titulo { display: block; font-weight: 600; }
+
+.atalho, .link, .botao {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  margin-top: 12px;
+}
+.botao {
+  padding: 0 20px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--fundo);
+  background: var(--destaque);
+  border: 0;
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+.vazio, .mensagem { margin: 16px 0 0; }
+
+.rodape {
+  margin-top: 32px;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+.rodape a { display: inline-block; padding: 12px 0; }
+
+.aviso-base {
+  padding: 10px 16px;
+  background: var(--aviso-fundo);
+  color: var(--aviso-texto);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.aviso-flutuante {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  background: var(--texto);
+  color: var(--fundo);
+  border-radius: var(--raio);
+  font-weight: 600;
+}
+
+[hidden] { display: none !important; }
