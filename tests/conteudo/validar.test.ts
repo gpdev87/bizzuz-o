@@ -87,6 +87,12 @@ describe('pontuação não computável', () => {
     expect(r.infracoes[0].pontos).toBeNull();
   });
 
+  test('"Não aplicável" também vira pontos null', async () => {
+    const r = await validarLinhas([linhaValida({ Pontos: 'Não aplicável' })]);
+    expect(r.erros).toEqual([]);
+    expect(r.infracoes[0].pontos).toBeNull();
+  });
+
   test('texto qualquer em Pontos é erro', async () => {
     const r = await validarLinhas([linhaValida({ Pontos: 'sete' })]);
     expect(r.erros).toEqual([expect.objectContaining({ campo: 'Pontos' })]);

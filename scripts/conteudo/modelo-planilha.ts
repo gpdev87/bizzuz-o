@@ -12,7 +12,7 @@ export const INSTRUCOES = [
   'Sinônimos: palavras que o policial digitaria, separadas por ponto e vírgula.',
   'Só mude o Status para Conferido depois de comparar a linha inteira com a fonte, e preencha a Data de conferência.',
   'Só as linhas Conferido aparecem no app.',
-  'Pontos: quando a ficha do MBFT diz "Não computável", escreva Não computável.',
+  'Pontos: quando a ficha do MBFT diz "Não computável" ou "Não aplicável", copie esse texto.',
 ];
 
 const LARGURA: Partial<Record<Coluna, number>> = {

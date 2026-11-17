@@ -15,7 +15,7 @@ export interface Infracao {
   descricao: string;
   artigo: string;
   gravidade: Gravidade;
-  /** null = pontuação não computável (ex.: condutor sem habilitação) */
+  /** null = sem pontuação: o MBFT diz "Não computável" ou "Não aplicável" */
   pontos: number | null;
   valorCentavos: number;
   /** null = a fonte não traz orientação para este ponto */
@@ -68,7 +68,7 @@ export const CATEGORIAS: readonly { slug: SlugCategoria; rotulo: string }[] = [
 ];
 
 export function rotuloPontos(pontos: number | null): string {
-  return pontos === null ? 'pontuação não computável' : `${pontos} pts`;
+  return pontos === null ? 'sem pontuação' : `${pontos} pts`;
 }
 
 export const ROTULO_GRAVIDADE: Record<Gravidade, string> = {
