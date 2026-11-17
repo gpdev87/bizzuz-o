@@ -2,6 +2,9 @@ import { URL_DADOS } from './config';
 import { armazenamentoIndexedDB, baixarBase, iniciarDados } from './dados/repositorio';
 import { montarApp } from './ui/app';
 import './ui/estilo.css';
+import { registerSW } from 'virtual:pwa-register';
+
+registerSW({ immediate: true });
 
 const raiz = document.getElementById('app')!;
 let app: ReturnType<typeof montarApp> | undefined;

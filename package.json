@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "conteudo": "tsx scripts/conteudo/gerar-base.ts",
-    "planilha:modelo": "tsx scripts/conteudo/modelo-planilha.ts"
+    "planilha:modelo": "tsx scripts/conteudo/modelo-planilha.ts",
+    "icones": "pwa-assets-generator --preset minimal-2023 public/icone.svg"
   },
   "dependencies": {
     "idb-keyval": "^6.3.0",
