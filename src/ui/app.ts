@@ -24,7 +24,13 @@ function lerRota(): Rota {
   const [caminho, query = ''] = h.split('?');
   const consulta = new URLSearchParams(query).get('q') ?? '';
   const partes = caminho.split('/').filter(Boolean);
-  return { nome: partes[0] ?? '', param: decodeURIComponent(partes[1] ?? ''), consulta };
+  let param = partes[1] ?? '';
+  try {
+    param = decodeURIComponent(param);
+  } catch {
+    /* link malformado (ex.: "%"): usa o texto cru, que simplesmente não casa com nada */
+  }
+  return { nome: partes[0] ?? '', param, consulta };
 }
 
 function desenhar(el: HTMLElement, ctx: Contexto, rota: Rota): void {
@@ -50,17 +56,26 @@ function desenhar(el: HTMLElement, ctx: Contexto, rota: Rota): void {
   if (rota.nome) window.scrollTo?.(0, 0);
 }
 
+export interface App {
+  /** Aplica uma base recém-baixada. */
+  atualizar(e: EstadoPronto, mudouVersao: boolean): void;
+  /** Recalcula o aviso de base desatualizada (ex.: quando o app volta do segundo plano). */
+  reavaliar(): void;
+  /** Remove os listeners globais antes de montar de novo. */
+  desmontar(): void;
+}
+
 export function montarApp(
   raiz: HTMLElement,
   estadoInicial: EstadoDados,
   opcoes: { tentarNovamente: () => void; agora?: () => number },
-): { atualizar(e: EstadoPronto, mudouVersao: boolean): void } {
+): App {
   const agora = opcoes.agora ?? Date.now;
 
   if (estadoInicial.tipo === 'sem-base') {
     raiz.innerHTML = '<main class="tela"></main>';
     renderSemBase(raiz.querySelector('main')!, opcoes.tentarNovamente);
-    return { atualizar: () => opcoes.tentarNovamente() };
+    return { atualizar: () => opcoes.tentarNovamente(), reavaliar: () => {}, desmontar: () => {} };
   }
 
   raiz.innerHTML = `
@@ -93,6 +108,8 @@ export function montarApp(
 
   let timer: ReturnType<typeof setTimeout> | undefined;
   return {
+    reavaliar: atualizarAviso,
+    desmontar: () => window.removeEventListener('hashchange', rotear),
     atualizar(e, mudouVersao) {
       ctx.verificadoEm = e.verificadoEm;
       atualizarAviso();

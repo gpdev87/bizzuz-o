@@ -100,3 +100,27 @@ describe('esc', () => {
     expect(esc('<b>"x"</b>')).toBe('&lt;b&gt;&quot;x&quot;&lt;/b&gt;');
   });
 });
+
+describe('robustez da abertura', () => {
+  test('link malformado não quebra o app', () => {
+    history.replaceState(null, '', '#/infracao/%');
+    const { raiz } = montar();
+    expect(raiz.querySelector('main')!.textContent).toContain('Ficha não encontrada.');
+  });
+});
+
+describe('reavaliar', () => {
+  test('mostra o aviso quando o app volta do segundo plano depois de 30 dias', () => {
+    let agora = AGORA;
+    const raiz = document.createElement('div');
+    const app = montarApp(
+      raiz,
+      { tipo: 'pronto', base: baseFixture, verificadoEm: AGORA },
+      { tentarNovamente: () => {}, agora: () => agora },
+    );
+    expect(raiz.textContent).not.toContain('conecte-se para verificar atualizações');
+    agora = AGORA + 31 * 24 * 60 * 60 * 1000;
+    app.reavaliar();
+    expect(raiz.textContent).toContain('conecte-se para verificar atualizações');
+  });
+});

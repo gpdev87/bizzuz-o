@@ -4,6 +4,7 @@ import {
   baixarBase,
   estaDesatualizada,
   iniciarDados,
+  verificarAtualizacao,
   type EstadoDados,
 } from '../../src/dados/repositorio';
 import type { Base } from '../../src/dominio/tipos';
@@ -112,5 +113,45 @@ describe('iniciarDados', () => {
     });
     expect(estado).toEqual({ tipo: 'pronto', base: baseFixture, verificadoEm: AGORA });
     expect(await armazenamento.ler()).toEqual({ base: baseFixture, verificadoEm: AGORA });
+  });
+});
+
+describe('baixarBase — conteúdo incoerente nunca substitui a base boa', () => {
+  const comInfracoes = (infracoes: unknown[]) => fetchFalso(200, JSON.stringify({ ...baseFixture, infracoes }));
+  const [i0, i1] = baseFixture.infracoes;
+  test.each([
+    ['lista vazia', comInfracoes([])],
+    ['código repetido', comInfracoes([i0, { ...i1, codigo: i0.codigo }])],
+    ['código fora do formato', comInfracoes([{ ...i0, codigo: '76331' }])],
+    ['valor com fração de centavo', comInfracoes([{ ...i0, valorCentavos: 293.47 }])],
+    ['valor fora da tabela', comInfracoes([{ ...i0, valorCentavos: 30000 }])],
+    ['pontos incompatíveis', comInfracoes([{ ...i0, pontos: 5 }])],
+    ['data de conferência vazia', comInfracoes([{ ...i0, conferidoEm: '' }])],
+    ['data gerada inválida', fetchFalso(200, JSON.stringify({ ...baseFixture, geradaEm: 'ontem' }))],
+  ])('rejeita %s', async (_nome, f) => {
+    await expect(baixarBase('x', f)).rejects.toThrow();
+  });
+});
+
+describe('verificarAtualizacao', () => {
+  test('baixa, salva e avisa quando há versão nova', async () => {
+    const armazenamento = armazenamentoMemoria({ base: baseFixture, verificadoEm: null });
+    const aoAtualizar = vi.fn();
+    await verificarAtualizacao({ armazenamento, baixar: async () => baseNova, agora: () => AGORA, aoAtualizar });
+    expect(aoAtualizar).toHaveBeenCalledWith({ tipo: 'pronto', base: baseNova, verificadoEm: AGORA }, true);
+    expect(await armazenamento.ler()).toEqual({ base: baseNova, verificadoEm: AGORA });
+  });
+
+  test('sem rede não muda nada', async () => {
+    const armazenamento = armazenamentoMemoria({ base: baseFixture, verificadoEm: 1 });
+    const aoAtualizar = vi.fn();
+    await verificarAtualizacao({
+      armazenamento,
+      baixar: () => Promise.reject(new Error('sem rede')),
+      agora: () => AGORA,
+      aoAtualizar,
+    });
+    expect(aoAtualizar).not.toHaveBeenCalled();
+    expect(await armazenamento.ler()).toEqual({ base: baseFixture, verificadoEm: 1 });
   });
 });
