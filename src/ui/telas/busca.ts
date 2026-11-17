@@ -1,8 +1,8 @@
 import { buscar } from '../../busca/busca';
 import { EMAIL_CONTATO, NOME_APP } from '../../config';
-import { ROTULO_GRAVIDADE } from '../../dominio/tipos';
 import type { Contexto } from '../contexto';
 import { esc, mailto } from '../html';
+import { listaInfracoes } from './item';
 
 function resultados(ctx: Contexto, consulta: string): string {
   const q = consulta.trim();
@@ -14,14 +14,7 @@ function resultados(ctx: Contexto, consulta: string): string {
     return `<p class="vazio">Nenhuma infração encontrada para “${esc(q)}”.</p>
       <a class="link" href="${esc(mailto(EMAIL_CONTATO, `Não encontrei: ${q}`))}">Avisar que não encontrei</a>`;
   }
-  return `<ul class="lista">${achados
-    .map(
-      (i) => `<li><a class="item" href="#/infracao/${esc(i.codigo)}">
-        <span class="item-codigo">${esc(i.codigo)} · ${ROTULO_GRAVIDADE[i.gravidade]} · ${i.pontos} pts</span>
-        <span class="item-titulo">${esc(i.descricao)}</span>
-      </a></li>`,
-    )
-    .join('')}</ul>`;
+  return listaInfracoes(achados);
 }
 
 export function renderBusca(el: HTMLElement, ctx: Contexto, consultaInicial: string): void {

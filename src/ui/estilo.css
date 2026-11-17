@@ -150,3 +150,8 @@ a { color: var(--destaque); }
 .secao h2 { font-size: 0.95rem; margin: 12px 0 4px; color: var(--texto-suave); }
 .texto { margin: 0 0 8px; white-space: pre-line; }
 .sem-orientacao { font-style: italic; color: var(--texto-suave); }
+
+.titulo-pagina { font-size: 1.35rem; margin: 8px 0 12px; }
+.item-categoria { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.contagem { color: var(--texto-suave); font-variant-numeric: tabular-nums; }
+.nota { font-size: 0.9rem; color: var(--texto-suave); }

@@ -3,7 +3,10 @@ import { estaDesatualizada, type EstadoDados, type EstadoPronto } from '../dados
 import { formatarData } from '../dominio/formatar';
 import type { Contexto } from './contexto';
 import { renderBusca } from './telas/busca';
+import { renderCategoria, renderCategorias } from './telas/categorias';
 import { renderFicha } from './telas/ficha';
+import { renderInstalar } from './telas/instalar';
+import { renderSobre } from './telas/sobre';
 import { renderSemBase } from './telas/sem-base';
 
 export type { Contexto } from './contexto';
@@ -28,6 +31,18 @@ function desenhar(el: HTMLElement, ctx: Contexto, rota: Rota): void {
   switch (rota.nome) {
     case 'infracao':
       renderFicha(el, ctx, rota.param);
+      break;
+    case 'categorias':
+      renderCategorias(el, ctx);
+      break;
+    case 'categoria':
+      renderCategoria(el, ctx, rota.param);
+      break;
+    case 'sobre':
+      renderSobre(el, ctx);
+      break;
+    case 'instalar':
+      renderInstalar(el);
       break;
     default:
       renderBusca(el, ctx, rota.consulta);
