@@ -79,3 +79,16 @@ describe('validar', () => {
     expect(r.erros.filter((e) => e.campo === 'Código').map((e) => e.linha)).toEqual([2, 3]);
   });
 });
+
+describe('pontuação não computável', () => {
+  test('"Não computável" vira pontos null sem erro', async () => {
+    const r = await validarLinhas([linhaValida({ Pontos: 'Não Computável' })]);
+    expect(r.erros).toEqual([]);
+    expect(r.infracoes[0].pontos).toBeNull();
+  });
+
+  test('texto qualquer em Pontos é erro', async () => {
+    const r = await validarLinhas([linhaValida({ Pontos: 'sete' })]);
+    expect(r.erros).toEqual([expect.objectContaining({ campo: 'Pontos' })]);
+  });
+});

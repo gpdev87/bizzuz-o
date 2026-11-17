@@ -66,3 +66,17 @@ describe('ficha', () => {
     expect(ficha('999-99').textContent).toContain('Ficha não encontrada.');
   });
 });
+
+describe('ficha com pontuação não computável', () => {
+  test('mostra "pontuação não computável" no lugar dos pontos', () => {
+    const original = ctx.base;
+    ctx.base = { ...original, infracoes: [{ ...original.infracoes[1], pontos: null }] };
+    try {
+      const t = ficha('501-00').textContent!;
+      expect(t).toContain('501-00 · Gravíssima · pontuação não computável');
+      expect(t).not.toContain('null');
+    } finally {
+      ctx.base = original;
+    }
+  });
+});

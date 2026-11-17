@@ -15,7 +15,8 @@ export interface Infracao {
   descricao: string;
   artigo: string;
   gravidade: Gravidade;
-  pontos: number;
+  /** null = pontuação não computável (ex.: condutor sem habilitação) */
+  pontos: number | null;
   valorCentavos: number;
   /** null = a fonte não traz orientação para este ponto */
   medidaAdministrativa: string | null;
@@ -65,6 +66,10 @@ export const CATEGORIAS: readonly { slug: SlugCategoria; rotulo: string }[] = [
   { slug: 'conducao', rotulo: 'Condução e circulação' },
   { slug: 'outras', rotulo: 'Outras' },
 ];
+
+export function rotuloPontos(pontos: number | null): string {
+  return pontos === null ? 'pontuação não computável' : `${pontos} pts`;
+}
 
 export const ROTULO_GRAVIDADE: Record<Gravidade, string> = {
   leve: 'Leve',

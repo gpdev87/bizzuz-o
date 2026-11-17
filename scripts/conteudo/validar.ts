@@ -87,8 +87,9 @@ function validarLinha(l: LinhaBruta): { infracao: Infracao | null; problemas: Pr
   const gravidade = GRAVIDADE_POR_TEXTO[semAcento(texto(v['Gravidade']))];
   if (!gravidade) problema('Gravidade', 'use Leve, Média, Grave ou Gravíssima');
 
-  const pontos = Number(v['Pontos']);
-  if (gravidade && pontos !== PONTOS[gravidade]) {
+  const naoComputavel = semAcento(texto(v['Pontos'])) === 'nao computavel';
+  const pontos = naoComputavel ? null : Number(v['Pontos']);
+  if (gravidade && pontos !== null && pontos !== PONTOS[gravidade]) {
     problema('Pontos', `infração ${texto(v['Gravidade'])} vale ${PONTOS[gravidade]} pontos`);
   }
 

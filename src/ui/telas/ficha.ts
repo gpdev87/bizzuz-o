@@ -1,6 +1,6 @@
 import { EMAIL_CONTATO } from '../../config';
 import { formatarData, formatarValor } from '../../dominio/formatar';
-import { ROTULO_GRAVIDADE } from '../../dominio/tipos';
+import { ROTULO_GRAVIDADE, rotuloPontos } from '../../dominio/tipos';
 import type { Contexto } from '../contexto';
 import { esc, mailto } from '../html';
 
@@ -45,7 +45,7 @@ export function renderFicha(el: HTMLElement, ctx: Contexto, codigo: string): voi
     <button type="button" class="voltar" aria-label="Voltar">‹ Voltar</button>
     <article class="ficha">
       <h1 class="ficha-titulo">${esc(i.descricao)}</h1>
-      <p class="ficha-meta">${esc(i.codigo)} · ${ROTULO_GRAVIDADE[i.gravidade]} · ${i.pontos} pts</p>
+      <p class="ficha-meta">${esc(i.codigo)} · ${ROTULO_GRAVIDADE[i.gravidade]} · ${rotuloPontos(i.pontos)}</p>
       <p class="ficha-meta">${formatarValor(i.valorCentavos)} · Medida adm.: ${
         i.medidaAdministrativa === null ? SEM_ORIENTACAO : esc(i.medidaAdministrativa)
       }</p>

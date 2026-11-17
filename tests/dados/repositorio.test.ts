@@ -155,3 +155,10 @@ describe('verificarAtualizacao', () => {
     expect(await armazenamento.ler()).toEqual({ base: baseFixture, verificadoEm: 1 });
   });
 });
+
+describe('baixarBase — pontuação não computável', () => {
+  test('aceita pontos null', async () => {
+    const base = { ...baseFixture, infracoes: [{ ...baseFixture.infracoes[1], pontos: null }] };
+    await expect(baixarBase('x', fetchFalso(200, JSON.stringify(base)))).resolves.toEqual(base);
+  });
+});

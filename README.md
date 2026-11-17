@@ -38,3 +38,4 @@ npm run conteudo -- --entrada tests/fixtures/planilha-dev.xlsx
 4. Sinônimos: palavras que o policial digitaria, separadas por ponto e vírgula.
 5. Só mude o Status para Conferido depois de comparar a linha inteira com a fonte, e preencha a Data de conferência.
 6. Só as linhas Conferido aparecem no app.
+7. Pontos: quando a ficha do MBFT diz "Não computável", escreva Não computável.

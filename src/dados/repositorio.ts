@@ -71,7 +71,7 @@ function ehInfracao(x: unknown): x is Infracao {
     ehTexto(i.descricao) &&
     ehTexto(i.artigo) &&
     (GRAVIDADES as readonly unknown[]).includes(g) &&
-    i.pontos === PONTOS[g] &&
+    (i.pontos === null || i.pontos === PONTOS[g]) &&
     typeof i.valorCentavos === 'number' &&
     Number.isInteger(i.valorCentavos) &&
     valorValido(g, i.valorCentavos) &&

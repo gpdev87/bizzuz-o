@@ -12,7 +12,7 @@ ws.addRow([...COLUNAS]);
 for (const i of baseFixture.infracoes) {
   const [a, m, d] = i.conferidoEm.split('-');
   ws.addRow([
-    i.codigo, i.descricao, i.artigo, ROTULO_GRAVIDADE[i.gravidade], i.pontos, i.valorCentavos / 100,
+    i.codigo, i.descricao, i.artigo, ROTULO_GRAVIDADE[i.gravidade], i.pontos ?? 'Não computável', i.valorCentavos / 100,
     nc(i.medidaAdministrativa), nc(i.quandoAutuar), nc(i.quandoNaoAutuar), nc(i.procedimento), nc(i.oQueRegistrar),
     CATEGORIAS.find((c) => c.slug === i.categoria)!.rotulo, i.sinonimos.join('; '), i.fonte, 'Conferido', `${d}/${m}/${a}`,
   ]);
