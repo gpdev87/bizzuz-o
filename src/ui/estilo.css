@@ -120,3 +120,33 @@ a { color: var(--destaque); }
 }
 
 [hidden] { display: none !important; }
+
+.voltar {
+  min-height: 48px;
+  padding: 0 4px;
+  font: inherit;
+  color: var(--destaque);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.ficha-titulo { font-size: 1.35rem; line-height: 1.3; margin: 4px 0 8px; }
+.ficha-meta { margin: 0; color: var(--texto-suave); font-variant-numeric: tabular-nums; }
+.secao {
+  margin-top: 16px;
+  padding: 4px 16px 12px;
+  background: var(--superficie);
+  border-radius: var(--raio);
+}
+.secao summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+.secao h2 { font-size: 0.95rem; margin: 12px 0 4px; color: var(--texto-suave); }
+.texto { margin: 0 0 8px; white-space: pre-line; }
+.sem-orientacao { font-style: italic; color: var(--texto-suave); }

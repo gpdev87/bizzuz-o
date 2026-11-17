@@ -3,6 +3,7 @@ import { estaDesatualizada, type EstadoDados, type EstadoPronto } from '../dados
 import { formatarData } from '../dominio/formatar';
 import type { Contexto } from './contexto';
 import { renderBusca } from './telas/busca';
+import { renderFicha } from './telas/ficha';
 import { renderSemBase } from './telas/sem-base';
 
 export type { Contexto } from './contexto';
@@ -25,6 +26,9 @@ function lerRota(): Rota {
 
 function desenhar(el: HTMLElement, ctx: Contexto, rota: Rota): void {
   switch (rota.nome) {
+    case 'infracao':
+      renderFicha(el, ctx, rota.param);
+      break;
     default:
       renderBusca(el, ctx, rota.consulta);
   }
